@@ -34,7 +34,7 @@ jobs:
       - name: Publish and release on Maven Central
         run: ./gradlew publish closeAndReleaseSonatypeStagingRepository --no-daemon --stacktrace
         env:
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.MAVEN_CENTRAL_GPG_PRIVATE_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.MAVEN_CENTRAL_GPG_PASSPHRASE }}
+          sonatypeUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          sonatypePassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          signingInMemoryKey: ${{ secrets.MAVEN_CENTRAL_GPG_PRIVATE_KEY }}
+          signingInMemoryKeyPassword: ${{ secrets.MAVEN_CENTRAL_GPG_PASSPHRASE }}
