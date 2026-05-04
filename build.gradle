@@ -1,5 +1,3 @@
-import org.gradle.api.publish.maven.MavenPublication
-
 plugins {
     id 'java-library'
     id 'maven-publish'
@@ -28,10 +26,12 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+def repoSlug = System.getenv('GITHUB_REPOSITORY') ?: 'thanhlv-com/DynamicJsonMapper'
+def projectUrl = "https://github.com/${repoSlug}"
+
 test {
     useJUnitPlatform()
 }
-
 publishOnCentral {
     repoOwner.set("thanhlv-com") // Used to populate the default value for projectUrl and scmConnection
     projectDescription.set("dynamicjsonmapper")
@@ -48,7 +48,7 @@ publishOnCentral {
  */
 publishing {
     publications {
-        withType(MavexnPublication) {
+        withType<MavenPublication> {
             pom {
                 developers {
                     developer {
@@ -69,7 +69,7 @@ publishing {
  * For further options, please refer to: https://docs.gradle.org/current/userguide/signing_plugin.html
  */
 signing {
-    def signingKey = findProperty('signingKey') ?: findProperty('signingInMemoryKey')
-    def signingPassword = findProperty('signingPassword') ?: findProperty('signingInMemoryKeyPassword')
+    def signingKey = findProperty('signingInMemoryKey')
+    def signingPassword = findProperty('signingInMemoryKeyPassword')
     useInMemoryPgpKeys(signingKey, signingPassword)
 }
