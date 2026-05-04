@@ -45,3 +45,4 @@ bin/
 
 ### Local release secrets ###
 scripts/publish-central.env
+.gradle-cache
