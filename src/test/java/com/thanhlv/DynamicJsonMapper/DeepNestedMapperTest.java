@@ -4,7 +4,7 @@ package com.thanhlv.DynamicJsonMapper;
 import tools.jackson.databind.JsonNode;
 import java.util.Map;
 
-public class DeepNestedMapper {
+public class DeepNestedMapperTest {
     private static final String TEMPLATE_PATH = "templates/deep-nested-template.json";
 
     public static void main(String[] args) {

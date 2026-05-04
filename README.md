@@ -31,9 +31,9 @@
 
 ## Run demos
 Run these main classes from your IDE:
-- `com.thanhlv.DynamicJsonMapper.DynamicJsonMapper`
-- `com.thanhlv.DynamicJsonMapper.DeepNestedMapper`
-- `com.thanhlv.DynamicJsonMapper.PaginatedListMapper`
+- `com.thanhlv.DynamicJsonMapper.DynamicJsonMapperTest`
+- `com.thanhlv.DynamicJsonMapper.DeepNestedMapperTest`
+- `com.thanhlv.DynamicJsonMapper.PaginatedListMapperTest`
 
 ## Core usage
 ```java

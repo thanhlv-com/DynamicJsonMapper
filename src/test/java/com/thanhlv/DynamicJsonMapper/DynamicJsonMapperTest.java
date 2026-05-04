@@ -5,7 +5,7 @@ import tools.jackson.databind.JsonNode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DynamicJsonMapper {
+public class DynamicJsonMapperTest {
     private static final String TEMPLATE_PATH = "templates/user-template.json";
 
     public static void main(String[] args) {

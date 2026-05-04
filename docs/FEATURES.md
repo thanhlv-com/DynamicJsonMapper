@@ -5,7 +5,7 @@ Update this file whenever code changes behavior.
 
 ## 1. JSON Template Rendering from Resource Files
 - Implemented in `JsonTemplateMapper.render(...)`.
-- Loads template JSON from `src/main/resources` (example: `templates/user-template.json`).
+- Loads template JSON from classpath resources (example: `templates/user-template.json`).
 - Replaces placeholder tokens in text nodes (pattern: `${key}`) with values from `rawData`.
 - Works recursively for nested objects and arrays.
 
@@ -34,18 +34,18 @@ Update this file whenever code changes behavior.
 
 ## 6. Deep-Nested Mapping via Shared Mapper
 - Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.render(...)`.
-- Uses `src/main/resources/templates/deep-nested-template.json` as nested template input.
+- Uses `src/test/resources/templates/deep-nested-template.json` as nested template input.
 - Reuses shared placeholder replacement logic and cache behavior from `JsonTemplateMapper`.
 
 ## 7. Runnable Demo Entrypoints
-- `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow.
-- `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper`.
-- `PaginatedListMapper.main(...)`: demonstrates list slicing (`page`/`size`) and mapping paginated response fields (`total`, `total_pages`, `items`) via template placeholders.
+- `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow (test/demo source set).
+- `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper` (test/demo source set).
+- `PaginatedListMapper.main(...)`: demonstrates list slicing (`page`/`size`) and mapping paginated response fields (`total`, `total_pages`, `items`) via template placeholders (test/demo source set).
 
 ## 8. List Pagination Mapping Demo
 - Implemented in `PaginatedListMapper.paginate(...)` and `PaginatedListMapper.main(...)`.
-- Uses `src/main/resources/templates/paginated-users-template.json`.
-- Uses `src/main/resources/templates/paginated-user-item-template.json` as item-level child template.
+- Uses `src/test/resources/templates/paginated-users-template.json`.
+- Uses `src/test/resources/templates/paginated-user-item-template.json` as item-level child template.
 - Normalizes invalid pagination input so `page <= 0` becomes `1`.
 - Normalizes invalid pagination input so `size <= 0` becomes `1`.
 - Calculates `total` as the total number of source items.
