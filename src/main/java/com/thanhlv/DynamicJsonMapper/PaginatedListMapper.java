@@ -24,11 +24,11 @@ public class PaginatedListMapper {
         PaginationResult paginationResult = paginate(users, page, size);
 
         Map<String, Object> rawData = Map.of(
-                "[page]", paginationResult.page(),
-                "[size]", paginationResult.size(),
-                "[total]", paginationResult.total(),
-                "[total_pages]", paginationResult.totalPages(),
-                "[items]", paginationResult.items()
+                "${page}", paginationResult.page(),
+                "${size}", paginationResult.size(),
+                "${total}", paginationResult.total(),
+                "${total_pages}", paginationResult.totalPages(),
+                "${items}", paginationResult.items()
         );
 
         JsonNode finalResponse = JsonTemplateMapper.render(TEMPLATE_PATH, rawData);

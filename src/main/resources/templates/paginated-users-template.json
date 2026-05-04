@@ -1,11 +1,11 @@
 {
   "status": "SUCCESS",
   "data": {
-    "page": "[page]",
-    "size": "[size]",
-    "total": "[total]",
-    "total_pages": "[total_pages]",
-    "items": "[items]"
+    "page": "${page}",
+    "size": "${size}",
+    "total": "${total}",
+    "total_pages": "${total_pages}",
+    "items": "${items}"
   },
   "metadata": {
     "source": "demo-pagination"

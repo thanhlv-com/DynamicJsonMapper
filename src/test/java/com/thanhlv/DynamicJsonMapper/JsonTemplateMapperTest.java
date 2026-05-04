@@ -15,9 +15,9 @@ class JsonTemplateMapperTest {
     @Test
     void render_shouldReplacePlaceholdersInUserTemplate() {
         Map<String, Object> rawData = Map.of(
-                "[name]", "Thanh",
-                "[noio]", "Ha Noi",
-                "[tuoi]", 23
+                "${name}", "Thanh",
+                "${noio}", "Ha Noi",
+                "${tuoi}", 23
         );
 
         JsonNode result = JsonTemplateMapper.render("templates/user-template.json", rawData);
@@ -32,13 +32,13 @@ class JsonTemplateMapperTest {
     @Test
     void render_shouldMapDeepNestedTemplate() {
         Map<String, Object> rawData = Map.of(
-                "[id]", "USR-99",
-                "[name]", "Thanh",
-                "[city]", "Ha Noi",
-                "[dist]", "Cau Giay",
-                "[street]", "Duy Tan",
-                "[skill_primary]", "Java",
-                "[skill_level]", "Senior"
+                "${id}", "USR-99",
+                "${name}", "Thanh",
+                "${city}", "Ha Noi",
+                "${dist}", "Cau Giay",
+                "${street}", "Duy Tan",
+                "${skill_primary}", "Java",
+                "${skill_level}", "Senior"
         );
 
         JsonNode result = JsonTemplateMapper.render("templates/deep-nested-template.json", rawData);
@@ -54,7 +54,7 @@ class JsonTemplateMapperTest {
 
     @Test
     void render_shouldSetNullForMissingPlaceholderValue() {
-        JsonNode result = JsonTemplateMapper.render("templates/user-template.json", Map.of("[name]", "Thanh"));
+        JsonNode result = JsonTemplateMapper.render("templates/user-template.json", Map.of("${name}", "Thanh"));
 
         assertEquals("Thanh", result.path("data").path("account_info").path("user_name").asText());
         assertTrue(result.path("data").path("account_info").path("age").isNull());
@@ -72,9 +72,9 @@ class JsonTemplateMapperTest {
 
     @Test
     void refreshCache_shouldKeepRenderWorking() {
-        JsonNode first = JsonTemplateMapper.render("templates/user-template.json", Map.of("[name]", "A"));
+        JsonNode first = JsonTemplateMapper.render("templates/user-template.json", Map.of("${name}", "A"));
         JsonTemplateMapper.refreshCache();
-        JsonNode second = JsonTemplateMapper.render("templates/user-template.json", Map.of("[name]", "B"));
+        JsonNode second = JsonTemplateMapper.render("templates/user-template.json", Map.of("${name}", "B"));
 
         assertEquals("A", first.path("data").path("account_info").path("user_name").asText());
         assertEquals("B", second.path("data").path("account_info").path("user_name").asText());

@@ -22,7 +22,7 @@ public class JsonTemplateMapper {
      * Render dữ liệu vào template JSON
      * * @param templatePath Đường dẫn file trong folder resources
      *
-     * @param rawData Map chứa dữ liệu nguồn (ví dụ: "[name]" -> "Thanh")
+     * @param rawData Map chứa dữ liệu nguồn (ví dụ: "${name}" -> "Thanh")
      * @return JsonNode đã được map dữ liệu
      */
     public static JsonNode render(String templatePath, Map<String, Object> rawData) {
@@ -77,7 +77,7 @@ public class JsonTemplateMapper {
         // 3. Xử lý Text Node (Mapping logic)
         if (node.isTextual()) {
             String text = node.asText();
-            if (text.startsWith("[") && text.endsWith("]")) {
+            if (text.startsWith("${") && text.endsWith("}")) {
                 Object value = rawData.get(text);
                 return mapper.valueToTree(value);
             }

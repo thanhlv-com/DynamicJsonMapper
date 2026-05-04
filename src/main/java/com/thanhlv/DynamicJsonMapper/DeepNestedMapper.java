@@ -11,13 +11,13 @@ public class DeepNestedMapper {
         // 1. Dữ liệu gốc "phẳng" hoặc "lồng" (Raw Data)
         // Giả sử các key được đặt theo style đặc thù của hệ thống cũ
         Map<String, Object> rawData = Map.of(
-                "[id]", "USR-99",
-                "[name]", "Thanh",
-                "[city]", "Hà Nội",
-                "[dist]", "Cầu Giấy",
-                "[street]", "Duy Tân",
-                "[skill_primary]", "Java",
-                "[skill_level]", "Senior"
+                "${id}", "USR-99",
+                "${name}", "Thanh",
+                "${city}", "Hà Nội",
+                "${dist}", "Cầu Giấy",
+                "${street}", "Duy Tân",
+                "${skill_primary}", "Java",
+                "${skill_level}", "Senior"
         );
 
         // 2. Load template file và mapping bằng JsonTemplateMapper

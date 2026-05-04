@@ -4,7 +4,7 @@
 
 ## Why this project
 - Keep API response shapes in JSON template files.
-- Replace placeholder tokens (for example `[name]`, `[city]`) at runtime.
+- Replace placeholder tokens (for example `${name}`, `${city}`) at runtime.
 - Support nested objects and arrays with recursive traversal.
 - Reuse parsed templates via in-memory cache for better performance.
 

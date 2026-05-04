@@ -11,9 +11,9 @@ public class DynamicJsonMapper {
     public static void main(String[] args) {
         // 1. Giả lập dữ liệu dynamic (Ví dụ lấy từ DB hoặc từ một Map lồng)
         final Map<String, Object> rawData = new HashMap<>();
-        rawData.put("[name]", "Thanh");
-        rawData.put("[noio]", "Hà Nội");
-        rawData.put("[tuoi]", 23);
+        rawData.put("${name}", "Thanh");
+        rawData.put("${noio}", "Hà Nội");
+        rawData.put("${tuoi}", 23);
 
         // 2. Thực hiện Mapping từ template file trong resources
         final JsonNode finalJsonResponse = JsonTemplateMapper.render(TEMPLATE_PATH, rawData);

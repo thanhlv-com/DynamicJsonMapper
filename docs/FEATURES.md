@@ -6,7 +6,7 @@ Update this file whenever code changes behavior.
 ## 1. JSON Template Rendering from Resource Files
 - Implemented in `JsonTemplateMapper.render(...)`.
 - Loads template JSON from `src/main/resources` (example: `templates/user-template.json`).
-- Replaces placeholder tokens in text nodes (pattern: `[key]`) with values from `rawData`.
+- Replaces placeholder tokens in text nodes (pattern: `${key}`) with values from `rawData`.
 - Works recursively for nested objects and arrays.
 
 ## 2. Template Caching for Faster Reuse

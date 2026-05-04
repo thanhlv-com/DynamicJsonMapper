@@ -2,11 +2,11 @@
   "status": "SUCCESS",
   "data": {
     "account_info": {
-      "user_name": "[name]",
-      "age": "[tuoi]"
+      "user_name": "${name}",
+      "age": "${tuoi}"
     },
     "location_details": {
-      "city": "[noio]",
+      "city": "${noio}",
       "country": "Việt Nam"
     }
   },
