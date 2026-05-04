@@ -40,3 +40,10 @@ String pretty = JsonTemplateMapper.jsonNodeToString(output);
 ## Contributing
 - Keep commits focused and descriptive (`type(scope): summary`).
 - Update `docs/FEATURES.md` in the same change whenever behavior or templates are modified.
+
+## AI Maintenance Skill
+- Skill location: `skills/code-doc-sync`.
+- Use it to keep code and documentation synchronized after changes.
+- Priority options:
+- `docs-first`: update implementation to match docs.
+- `code-first`: update docs to match implementation.

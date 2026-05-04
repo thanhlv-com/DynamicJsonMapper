@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Doc Sync"
+  short_description: "Keep code and docs in sync safely."
+  default_prompt: "Use this skill to reconcile mismatches between implementation and documentation. Ask for docs-first or code-first priority, then update affected files and summarize decisions."

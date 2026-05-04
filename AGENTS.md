@@ -3,7 +3,6 @@
 ## Project Structure & Module Organization
 This is a single-module Gradle Java project (`settings.gradle` name: `DynamicJsonMapper`).
 
-- `src/main/java/org/example/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`).
 - `src/main/java/com/thanhlv/DynamicJsonMapper/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`).
 - `src/main/resources/templates/`: JSON templates used by mappers (for example `user-template.json`).
 - `src/test/java/` and `src/test/resources/`: test code and fixtures (currently scaffolded, add tests here).
@@ -45,3 +44,10 @@ Git history is not available in this workspace snapshot, so follow this conventi
 - Any code change that affects behavior, APIs, templates, or examples must update `docs/FEATURES.md` in the same PR/commit.
 - AI agents working in this repository must treat `docs/FEATURES.md` as a required update target, not an optional follow-up.
 - If no documentation change is needed, explicitly state why in the PR description.
+
+## AI Skill: Code/Docs Synchronization
+- Use skill path `skills/code-doc-sync` when reconciling mismatches between implementation and docs.
+- Supported priority modes:
+- `docs-first`: docs are source of truth; update code to match docs.
+- `code-first`: code is source of truth; update docs to match implementation.
+- If mode is not specified, AI should ask one short question before editing.
