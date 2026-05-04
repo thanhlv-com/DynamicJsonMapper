@@ -1,0 +1,15 @@
+{
+  "user_id": "[id]",
+  "profile": {
+    "display_name": "[name]",
+    "address": {
+      "city": "[city]",
+      "district": "[dist]",
+      "detail": "[street]"
+    }
+  },
+  "expertise": {
+    "main": "[skill_primary]",
+    "rank": "[skill_level]"
+  }
+}

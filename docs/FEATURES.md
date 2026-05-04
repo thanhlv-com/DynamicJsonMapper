@@ -22,11 +22,11 @@ Update this file whenever code changes behavior.
 - Implemented in `JsonTemplateMapper.jsonNodeToString(...)`.
 - Converts `JsonNode` to human-readable JSON for debugging or response inspection.
 
-## 5. Recursive Deep-Nested Mapping (Map-Based Template)
-- Implemented in `DeepNestedMapper.mapRecursive(...)`.
-- Accepts a nested `Map<String, Object>` template and maps source placeholders to a deeply nested output `ObjectNode`.
-- If a source key is missing, writes `null`.
+## 5. Deep-Nested Mapping via Shared Mapper
+- Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.render(...)`.
+- Uses `src/main/resources/templates/deep-nested-template.json` as nested template input.
+- Reuses shared placeholder replacement logic and cache behavior from `JsonTemplateMapper`.
 
 ## 6. Runnable Demo Entrypoints
 - `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow.
-- `DeepNestedMapper.main(...)`: demonstrates recursive nested mapping flow.
+- `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper`.
