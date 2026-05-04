@@ -7,6 +7,10 @@ import tools.jackson.databind.node.ObjectNode;
 
 import java.util.Map;
 
+/**
+ * Recursively renders a template tree by replacing placeholders and resolving template references.
+ * This class is package-private and coordinated through {@link JsonTemplateMapper}.
+ */
 final class TemplateRenderer {
     private final ObjectMapper mapper;
     private final TemplateRepository templateRepository;
@@ -20,6 +24,7 @@ final class TemplateRenderer {
 
     JsonNode render(String templatePath, Map<String, Object> rawData) {
         JsonNode rootTemplate = templateRepository.getTemplate(templatePath);
+        // Render from a deep copy so cached templates in the repository remain immutable.
         return processNode(rootTemplate.deepCopy(), rawData);
     }
 
@@ -48,6 +53,7 @@ final class TemplateRenderer {
         if (node.isTextual()) {
             String text = node.asText();
             if (PlaceholderHelper.isPlaceholder(text)) {
+                // Only full-token placeholders are replaced; partial string interpolation is unsupported.
                 return mapper.valueToTree(rawData.get(text));
             }
         }

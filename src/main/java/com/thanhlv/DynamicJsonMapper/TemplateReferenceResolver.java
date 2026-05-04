@@ -10,6 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Resolves object nodes that declare a child template expansion contract:
+ * <ul>
+ *     <li>{@code $template_ref}: child template path</li>
+ *     <li>{@code $source}: placeholder key resolving to object/array data</li>
+ * </ul>
+ */
 final class TemplateReferenceResolver {
     private static final String TEMPLATE_REF_KEY = "$template_ref";
     private static final String TEMPLATE_SOURCE_KEY = "$source";
@@ -46,6 +53,7 @@ final class TemplateReferenceResolver {
 
         Object sourceValue = rawData.get(sourceToken);
         if (sourceValue == null) {
+            // Missing source token renders as JSON null instead of throwing.
             return NullNode.getInstance();
         }
 
@@ -73,6 +81,7 @@ final class TemplateReferenceResolver {
             JsonNode itemNode,
             TemplateRenderer renderer
     ) {
+        // Child rendering inherits parent placeholders unless item-level values override them.
         Map<String, Object> childRawData = new HashMap<>(parentRawData);
         if (itemNode instanceof ObjectNode itemObject) {
             var fields = itemObject.properties().iterator();
@@ -87,6 +96,7 @@ final class TemplateReferenceResolver {
             Object primitiveValue = mapper.convertValue(itemNode, Object.class);
             JsonNode childTemplate = templateRepository.getTemplate(childTemplatePath);
             Set<String> placeholders = PlaceholderHelper.collectPlaceholders(childTemplate);
+            // Primitive arrays are "broadcast" to each placeholder in child template if not preset.
             for (String placeholder : placeholders) {
                 childRawData.putIfAbsent(placeholder, primitiveValue);
             }

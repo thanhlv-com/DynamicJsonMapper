@@ -21,6 +21,7 @@ public class CachingClasspathTemplateRepository implements TemplateRepository {
 
     @Override
     public JsonNode getTemplate(String templatePath) {
+        // computeIfAbsent guarantees one cached node per path across threads.
         return cache.computeIfAbsent(templatePath, path -> {
             try (InputStream is = openTemplateStream(path)) {
                 if (is == null) {

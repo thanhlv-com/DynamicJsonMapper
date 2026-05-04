@@ -6,7 +6,10 @@ import tools.jackson.databind.ObjectMapper;
 import java.util.Map;
 
 /**
- * Facade for rendering dynamic JSON responses from templates.
+ * Public facade for rendering JSON templates with placeholder-driven data.
+ * <p>
+ * Placeholder keys are matched by their full token form (for example {@code ${name}}),
+ * not by bare field names.
  */
 public class JsonTemplateMapper {
     private static final JsonTemplateMapper DEFAULT_INSTANCE = new JsonTemplateMapper();
@@ -41,8 +44,9 @@ public class JsonTemplateMapper {
      * Renders a JSON template with dynamic data.
      *
      * @param templatePath classpath path under resources
-     * @param rawData placeholder map, for example "${name}" -> "Thanh"
+     * @param rawData placeholder map, for example {@code "${name}" -> "Thanh"}
      * @return rendered JsonNode
+     * @throws RuntimeException wraps template loading/rendering failures
      */
     public JsonNode render(String templatePath, Map<String, Object> rawData) {
         try {
@@ -52,6 +56,9 @@ public class JsonTemplateMapper {
         }
     }
 
+    /**
+     * Serializes a rendered node using pretty-print formatting for diagnostics/examples.
+     */
     public String jsonNodeToString(JsonNode node) {
         return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
     }

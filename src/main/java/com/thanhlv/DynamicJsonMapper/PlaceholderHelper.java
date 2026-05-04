@@ -7,6 +7,9 @@ import tools.jackson.databind.node.ObjectNode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Utility functions for placeholder token semantics.
+ */
 final class PlaceholderHelper {
     private static final String PLACEHOLDER_PREFIX = "${";
     private static final String PLACEHOLDER_SUFFIX = "}";
@@ -14,14 +17,23 @@ final class PlaceholderHelper {
     private PlaceholderHelper() {
     }
 
+    /**
+     * Returns true only for full placeholder tokens in the form {@code ${key}}.
+     */
     static boolean isPlaceholder(String text) {
         return text.startsWith(PLACEHOLDER_PREFIX) && text.endsWith(PLACEHOLDER_SUFFIX);
     }
 
+    /**
+     * Converts a bare key to its placeholder token form.
+     */
     static String toPlaceholder(String key) {
         return PLACEHOLDER_PREFIX + key + PLACEHOLDER_SUFFIX;
     }
 
+    /**
+     * Collects unique placeholder tokens found in textual nodes across an entire template tree.
+     */
     static Set<String> collectPlaceholders(JsonNode node) {
         Set<String> placeholders = new HashSet<>();
         collect(node, placeholders);
