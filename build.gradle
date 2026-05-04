@@ -1,12 +1,19 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'com.vanniktech.maven.publish' version '0.36.0'
 }
 
 group = 'com.thanhlv.dynamicjsonmapper'
-version = '1.0'
+version = findProperty('releaseVersion') ?: '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 dependencies {
@@ -21,4 +28,38 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+mavenPublishing {
+    publishToMavenCentral(true)
+    signAllPublications()
+
+    coordinates(group.toString(), 'dynamic-json-mapper', version.toString())
+
+    pom {
+        name = 'DynamicJsonMapper'
+        description = 'A lightweight Java utility for rendering JSON responses from template files using dynamic placeholder data.'
+        url = 'https://github.com/thanhlv-com/DynamicJsonMapper'
+
+        licenses {
+            license {
+                name = 'The Apache License, Version 2.0'
+                url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+            }
+        }
+
+        developers {
+            developer {
+                id = 'thanhlv-com'
+                name = 'Thanh Le Van'
+                email = 'thanhlv.com@gmail.com'
+            }
+        }
+
+        scm {
+            connection = 'scm:git:git://github.com/thanhlv-com/DynamicJsonMapper.git'
+            developerConnection = 'scm:git:ssh://git@github.com/thanhlv-com/DynamicJsonMapper.git'
+            url = 'https://github.com/thanhlv-com/DynamicJsonMapper'
+        }
+    }
 }

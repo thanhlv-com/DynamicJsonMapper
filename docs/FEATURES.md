@@ -38,6 +38,12 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - `JsonTemplateMapper` is instance-based and accepts custom `TemplateRepository` via constructor.
 - `JsonTemplateMapper.defaultInstance()` provides a static shared default instance for quick usage.
 
+## 10. Maven Central Publishing Pipeline
+- Build is configured with `com.vanniktech.maven.publish` for Maven Central publication.
+- Publication metadata is defined in `build.gradle` (`groupId`, `artifactId`, version, license, SCM, developer info).
+- Artifacts are signed through in-memory GPG values supplied by CI secrets.
+- GitHub Actions workflow `.github/workflows/publish-central.yml` publishes on tag push (`v*`) or manual dispatch (`release_version` input).
+
 ## 6. Deep-Nested Mapping via Shared Mapper
 - Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.defaultInstance().render(...)`.
 - Uses `src/test/resources/templates/deep-nested-template.json` as nested template input.

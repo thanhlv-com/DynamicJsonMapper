@@ -29,6 +29,18 @@
 ./gradlew classes
 ```
 
+## Publish to Maven Central (GitHub Actions)
+- Workflow file: `.github/workflows/publish-central.yml`.
+- Trigger methods:
+- Push tag release: `v*` (example: `v1.2.3`).
+- Manual run via GitHub Actions (`workflow_dispatch`) with `release_version`.
+- Required GitHub repository secrets:
+- `MAVEN_CENTRAL_USERNAME`
+- `MAVEN_CENTRAL_PASSWORD`
+- `MAVEN_GPG_PRIVATE_KEY` (ASCII-armored private key)
+- `MAVEN_GPG_PASSPHRASE`
+- Build uses Gradle task: `publishToMavenCentral` with `-PreleaseVersion=...`.
+
 ## Run demos
 Run these main classes from your IDE:
 - `com.thanhlv.DynamicJsonMapper.DynamicJsonMapperTest`
