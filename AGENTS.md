@@ -4,12 +4,13 @@
 This is a single-module Gradle Java project (`settings.gradle` name: `DynamicJsonMapper`).
 
 - `src/main/java/org/example/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`).
+- `src/main/java/com/thanhlv/DynamicJsonMapper/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`).
 - `src/main/resources/templates/`: JSON templates used by mappers (for example `user-template.json`).
 - `src/test/java/` and `src/test/resources/`: test code and fixtures (currently scaffolded, add tests here).
 - `docs/`: living documentation for implemented features (`docs/FEATURES.md` must reflect current behavior).
 - `build/`: generated outputs and reports (do not edit manually).
 
-Keep new Java classes under `org.example` unless package boundaries are intentionally introduced.
+Keep new Java classes under `com.thanhlv.DynamicJsonMapper` unless package boundaries are intentionally introduced.
 
 ## Build, Test, and Development Commands
 Use the Gradle wrapper from repository root:

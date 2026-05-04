@@ -1,4 +1,4 @@
-package org.example;
+package com.thanhlv.DynamicJsonMapper;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;

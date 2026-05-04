@@ -1,10 +1,11 @@
-package org.example;
+package com.thanhlv.DynamicJsonMapper;
 
 
 import tools.jackson.databind.JsonNode;
 import java.util.Map;
 
 public class DeepNestedMapper {
+    private static final String TEMPLATE_PATH = "templates/deep-nested-template.json";
 
     public static void main(String[] args) {
         // 1. Dữ liệu gốc "phẳng" hoặc "lồng" (Raw Data)
@@ -20,8 +21,7 @@ public class DeepNestedMapper {
         );
 
         // 2. Load template file và mapping bằng JsonTemplateMapper
-        String templatePath = "templates/deep-nested-template.json";
-        JsonNode finalResponse = JsonTemplateMapper.render(templatePath, rawData);
+        JsonNode finalResponse = JsonTemplateMapper.render(TEMPLATE_PATH, rawData);
 
         // 3. In kết quả
         System.out.println(JsonTemplateMapper.jsonNodeToString(finalResponse));
