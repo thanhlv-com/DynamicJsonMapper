@@ -2,6 +2,7 @@
 
 This document describes the currently implemented features in `DynamicJsonMapper`.
 Update this file whenever code changes behavior.
+Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 
 ## 1. JSON Template Rendering from Resource Files
 - Implemented in `JsonTemplateMapper.render(...)`.

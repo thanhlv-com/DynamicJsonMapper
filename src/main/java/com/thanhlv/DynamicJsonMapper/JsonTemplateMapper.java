@@ -1,4 +1,4 @@
-package com.thanhlv.DynamicJsonMapper;
+package com.thanhlv.dynamicjsonmapper;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Common Utility để xử lý Dynamic JSON Response từ Template
  */
-public class JsonTemplateMapper {
+public final class JsonTemplateMapper {
     private static final String TEMPLATE_REF_KEY = "$template_ref";
     private static final String TEMPLATE_SOURCE_KEY = "$source";
     private static final String PLACEHOLDER_PREFIX = "${";

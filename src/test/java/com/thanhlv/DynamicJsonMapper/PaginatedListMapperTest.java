@@ -1,4 +1,4 @@
-package com.thanhlv.DynamicJsonMapper;
+package com.thanhlv.dynamicjsonmapper;
 
 import tools.jackson.databind.JsonNode;
 
