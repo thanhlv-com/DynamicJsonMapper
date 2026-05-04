@@ -72,11 +72,19 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 
 ## 11. Maven Central Release Automation
 - Build includes `signing` and `io.github.gradle-nexus.publish-plugin` for Sonatype Central OSSRH Staging API flow.
-- Publication now contains Maven Central-required POM metadata:
+- Publication contains Maven Central-required POM metadata:
 - project `name`/`description`/`url`
 - `licenses`
 - `developers`
 - `scm`
+- Signing is required for Gradle `publish` tasks and uses in-memory PGP key from Gradle properties (`signingInMemoryKey`, `signingInMemoryKeyPassword`).
 - CI workflow `.github/workflows/publish-maven-central.yml` supports automated release:
+- Triggers on `workflow_dispatch`, Release `published`, and tag push `v*`.
 - Uses `actions/checkout`, `actions/setup-java`, and `gradle/actions/setup-gradle`.
+- Runs `./gradlew clean test` before release.
 - Runs `./gradlew publish closeAndReleaseSonatypeStagingRepository` for publish + release staging.
+- Uses repository secrets:
+- `MAVEN_CENTRAL_USERNAME`
+- `MAVEN_CENTRAL_PASSWORD`
+- `MAVEN_CENTRAL_GPG_PRIVATE_KEY`
+- `MAVEN_CENTRAL_GPG_PASSPHRASE`

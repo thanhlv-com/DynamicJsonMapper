@@ -43,14 +43,19 @@ Maven coordinates:
 - Trigger:
 - `workflow_dispatch`
 - GitHub Release `published`
-- Publish command:
-- `./gradlew publish closeAndReleaseSonatypeStagingRepository`
+- `push` tag matching `v*` (for example: `v1.0.1`)
+- Validation command: `./gradlew clean test`
+- Publish command: `./gradlew publish closeAndReleaseSonatypeStagingRepository`
 
 Required GitHub repository secrets:
 - `MAVEN_CENTRAL_USERNAME`
 - `MAVEN_CENTRAL_PASSWORD`
 - `MAVEN_CENTRAL_GPG_PRIVATE_KEY` (ASCII-armored private key)
 - `MAVEN_CENTRAL_GPG_PASSPHRASE`
+
+Required Maven Central endpoint (configured in `build.gradle`):
+- `https://ossrh-staging-api.central.sonatype.com/service/local/`
+- `https://central.sonatype.com/repository/maven-snapshots/`
 
 ## Core usage
 ```java
