@@ -5,7 +5,18 @@
     "size": "${size}",
     "total": "${total}",
     "total_pages": "${total_pages}",
-    "items": "${items}"
+    "items": {
+      "$template_ref": "templates/paginated-user-item-template.json",
+      "$source": "${items}"
+    },
+    "first_item": {
+      "$template_ref": "templates/paginated-user-item-template.json",
+      "$source": "${first_item}"
+    },
+    "last_item": {
+      "$template_ref": "templates/paginated-user-item-template.json",
+      "$source": "${last_item}"
+    }
   },
   "metadata": {
     "source": "demo-pagination"

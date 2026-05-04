@@ -3,6 +3,7 @@ package com.thanhlv.DynamicJsonMapper;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,5 +79,48 @@ class JsonTemplateMapperTest {
 
         assertEquals("A", first.path("data").path("account_info").path("user_name").asText());
         assertEquals("B", second.path("data").path("account_info").path("user_name").asText());
+    }
+
+    @Test
+    void render_shouldResolveTemplateRefForPaginatedItems() {
+        Map<String, Object> rawData = Map.of(
+                "${page}", 1,
+                "${size}", 2,
+                "${total}", 5,
+                "${total_pages}", 3,
+                "${items}", List.of(
+                        Map.of("id", 1, "name", "An"),
+                        Map.of("id", 2, "name", "Binh")
+                ),
+                "${first_item}", Map.of("id", 1, "name", "An"),
+                "${last_item}", Map.of("id", 2, "name", "Binh")
+        );
+
+        JsonNode result = JsonTemplateMapper.render("templates/paginated-users-template.json", rawData);
+
+        assertEquals("SUCCESS", result.path("status").asText());
+        assertEquals(2, result.path("data").path("items").size());
+        assertEquals(1, result.path("data").path("items").get(0).path("user_id").asInt());
+        assertEquals("An", result.path("data").path("items").get(0).path("display_name").asText());
+        assertEquals(2, result.path("data").path("items").get(1).path("user_id").asInt());
+        assertEquals("Binh", result.path("data").path("items").get(1).path("display_name").asText());
+        assertEquals(1, result.path("data").path("first_item").path("user_id").asInt());
+        assertEquals("An", result.path("data").path("first_item").path("display_name").asText());
+        assertEquals(2, result.path("data").path("last_item").path("user_id").asInt());
+        assertEquals("Binh", result.path("data").path("last_item").path("display_name").asText());
+    }
+
+    @Test
+    void render_shouldThrowWhenTemplateRefSourceIsNotArrayOrObject() {
+        RuntimeException exception = assertThrows(RuntimeException.class,
+                () -> JsonTemplateMapper.render("templates/paginated-users-template.json", Map.of(
+                        "${page}", 1,
+                        "${size}", 2,
+                        "${total}", 2,
+                        "${total_pages}", 1,
+                        "${items}", "invalid"
+                )));
+
+        assertTrue(exception.getMessage().contains("Lỗi render dynamic JSON"));
     }
 }

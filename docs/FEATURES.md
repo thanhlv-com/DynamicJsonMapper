@@ -8,6 +8,9 @@ Update this file whenever code changes behavior.
 - Loads template JSON from `src/main/resources` (example: `templates/user-template.json`).
 - Replaces placeholder tokens in text nodes (pattern: `${key}`) with values from `rawData`.
 - Works recursively for nested objects and arrays.
+- Supports linked child templates for array fields via object config:
+- `$template_ref`: child template path in resources.
+- `$source`: placeholder token that resolves to an object or array in `rawData`.
 
 ## 2. Template Caching for Faster Reuse
 - Implemented in `JsonTemplateMapper` with `ConcurrentHashMap<String, JsonNode>`.
@@ -35,8 +38,10 @@ Update this file whenever code changes behavior.
 ## 7. List Pagination Mapping Demo
 - Implemented in `PaginatedListMapper.paginate(...)` and `PaginatedListMapper.main(...)`.
 - Uses `src/main/resources/templates/paginated-users-template.json`.
+- Uses `src/main/resources/templates/paginated-user-item-template.json` as item-level child template.
 - Normalizes invalid pagination input so `page <= 0` becomes `1`.
 - Normalizes invalid pagination input so `size <= 0` becomes `1`.
 - Calculates `total` as the total number of source items.
 - Calculates `total_pages` by `ceil(total / size)` with minimum value `1`.
-- Maps `items` as the current page sub-list (empty if page exceeds available data).
+- Maps `items` by applying child template rendering to each current-page element.
+- Exposes `first_item` and `last_item` in template output via the same child-template mechanism.

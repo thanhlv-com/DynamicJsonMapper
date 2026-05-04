@@ -5,12 +5,13 @@
 ## Why this project
 - Keep API response shapes in JSON template files.
 - Replace placeholder tokens (for example `${name}`, `${city}`) at runtime.
+- Link parent and child templates for object/array rendering (via `$template_ref` and `$source`).
 - Support nested objects and arrays with recursive traversal.
 - Reuse parsed templates via in-memory cache for better performance.
 
 ## Project structure
 - `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`, `PaginatedListMapper`)
-- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`)
+- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`, `paginated-user-item-template.json`)
 - `docs/FEATURES.md`: detailed, always-updated feature list
 - `AGENTS.md`: contributor and AI collaboration guidelines
 
