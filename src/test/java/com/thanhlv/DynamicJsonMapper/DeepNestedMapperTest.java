@@ -1,16 +1,18 @@
 package com.thanhlv.dynamicjsonmapper;
 
-
+import org.junit.jupiter.api.Test;
 import tools.jackson.databind.JsonNode;
+
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeepNestedMapperTest {
     private static final String TEMPLATE_PATH = "templates/deep-nested-template.json";
     private static final JsonTemplateMapper MAPPER = JsonTemplateMapper.defaultInstance();
 
-    public static void main(String[] args) {
-        // 1. Dữ liệu gốc "phẳng" hoặc "lồng" (Raw Data)
-        // Giả sử các key được đặt theo style đặc thù của hệ thống cũ
+    @Test
+    void shouldRenderDeepNestedTemplateWithExpectedValues() {
         Map<String, Object> rawData = Map.of(
                 "${id}", "USR-99",
                 "${name}", "Thanh",
@@ -21,10 +23,14 @@ public class DeepNestedMapperTest {
                 "${skill_level}", "Senior"
         );
 
-        // 2. Load template file và mapping bằng JsonTemplateMapper
         JsonNode finalResponse = MAPPER.render(TEMPLATE_PATH, rawData);
 
-        // 3. In kết quả
-        System.out.println(MAPPER.jsonNodeToString(finalResponse));
+        assertEquals("USR-99", finalResponse.path("user_id").asText());
+        assertEquals("Thanh", finalResponse.path("profile").path("display_name").asText());
+        assertEquals("Hà Nội", finalResponse.path("profile").path("address").path("city").asText());
+        assertEquals("Cầu Giấy", finalResponse.path("profile").path("address").path("district").asText());
+        assertEquals("Duy Tân", finalResponse.path("profile").path("address").path("detail").asText());
+        assertEquals("Java", finalResponse.path("expertise").path("main").asText());
+        assertEquals("Senior", finalResponse.path("expertise").path("rank").asText());
     }
 }
