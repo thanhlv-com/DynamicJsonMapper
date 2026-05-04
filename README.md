@@ -48,3 +48,5 @@ String pretty = JsonTemplateMapper.jsonNodeToString(output);
 - Priority options:
 - `docs-first`: update implementation to match docs.
 - `code-first`: update docs to match implementation.
+- Skill location: `skills/code-test-sync`.
+- Use it to keep implementation and JUnit tests synchronized; when coverage is missing, add/update tests in the same change.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Test Sync"
+  short_description: "Keep implementation and unit tests synchronized."
+  default_prompt: "Use this skill to detect missing or outdated unit tests after code changes. Add or update JUnit tests for uncovered behavior, run ./gradlew test, and summarize coverage updates."

@@ -51,3 +51,10 @@ Git history is not available in this workspace snapshot, so follow this conventi
 - `docs-first`: docs are source of truth; update code to match docs.
 - `code-first`: code is source of truth; update docs to match implementation.
 - If mode is not specified, AI should ask one short question before editing.
+
+## AI Skill: Code/Test Synchronization
+- Use skill path `skills/code-test-sync` when implementation changes may require unit-test updates.
+- Required behavior:
+- Detect changed logic under `src/main/java/**`.
+- Verify matching coverage under `src/test/java/**`.
+- If coverage is missing/outdated, update or add unit tests in the same change.
