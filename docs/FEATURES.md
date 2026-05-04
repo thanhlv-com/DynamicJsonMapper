@@ -1,69 +1,63 @@
 # Current Features
 
-This document describes the currently implemented features in `DynamicJsonMapper`.
-Update this file whenever code changes behavior.
+This document describes the implemented behavior in `DynamicJsonMapper`.
 Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 
-## 1. JSON Template Rendering from Resource Files
-- Implemented in `JsonTemplateMapper#render(...)`.
-- Loads template JSON from classpath resources (example: `templates/user-template.json`).
-- Replaces placeholder tokens in text nodes (pattern: `${key}`) with values from `rawData`.
-- Works recursively for nested objects and arrays.
+## 1. JSON template rendering from classpath resources
+- Implemented by `JsonTemplateMapper#render(...)` through `TemplateRenderer`.
+- Loads template JSON by classpath path (for example `templates/user-template.json`).
+- Recursively processes nested objects and arrays.
+- Replaces textual placeholder tokens that exactly match `${key}` with values from `rawData`.
+- If a placeholder key is missing in `rawData`, that field becomes JSON `null`.
 
-## 2. Linked Child Templates via `$template_ref` and `$source`
+## 2. Linked child templates via `$template_ref` and `$source`
 - Implemented in `TemplateReferenceResolver`.
-- Supports linked child templates for response fields using object config:
-- `$template_ref`: child template path in resources.
-- `$source`: textual placeholder token (for example `${items}`) resolved from `rawData`.
-- `$source` must resolve to an object or array value; otherwise rendering fails with `IllegalArgumentException` wrapped in `RuntimeException`.
-- If `$source` resolves to `null`, renderer returns JSON `null` for that field.
-- For primitive array items (for example `List<String>`), mapper auto-detects placeholders in the child template and binds each placeholder to the primitive item value.
-- Primitive-array scenario is covered by templates `templates/tags-template.json` and `templates/tag-item-template.json`.
+- Supports linked child templates using object config:
+- `$template_ref`: child template path.
+- `$source`: placeholder token (for example `${items}`) resolved from `rawData`.
+- Validation rules:
+- `$template_ref` and `$source` must both be present and textual.
+- `$source` must be a placeholder token format (`${...}`).
+- `$source` value must resolve to object or array; primitive source values fail with `IllegalArgumentException`.
+- Rendering behavior:
+- If `$source` resolves to `null`, the rendered field is JSON `null`.
+- If `$source` resolves to an array, child template renders once per item.
+- For object items, item properties are exposed to child template as placeholders (for example `id` -> `${id}`).
+- For primitive items, all child-template placeholders are filled with that primitive value unless already provided by parent raw data.
 
-## 3. Template Caching for Faster Reuse
-- Implemented in `CachingClasspathTemplateRepository` with `ConcurrentHashMap<String, JsonNode>`.
-- Caches parsed templates by resource path to avoid repeated file I/O and parse cost.
-- Uses `deepCopy()` before processing so cached templates are never mutated.
+## 3. Template repository abstraction and pluggable sources
+- `TemplateRepository` is an interface for template-loading strategies.
+- Default implementation is `CachingClasspathTemplateRepository`.
+- `JsonTemplateMapper` supports constructor injection of custom `TemplateRepository` and/or custom `ObjectMapper`.
 
-## 4. Cache Refresh Mechanism
-- Implemented in `JsonTemplateMapper#refreshCache()`.
-- Clears all cached template entries, useful when template files are changed at runtime.
+## 4. In-memory template caching
+- `CachingClasspathTemplateRepository` caches parsed templates using `ConcurrentHashMap<String, JsonNode>`.
+- Cached templates are reused across render calls.
+- Rendering always uses `deepCopy()` of cached template to avoid mutation of cached entries.
 
-## 5. Pretty JSON Output Utility
+## 5. Cache refresh
+- `JsonTemplateMapper#refreshCache()` clears repository cache.
+- For repositories that do not cache, `TemplateRepository#clear()` is optional (default no-op).
+
+## 6. Shared default mapper and instance-based API
+- `JsonTemplateMapper.defaultInstance()` provides a reusable singleton mapper.
+- `JsonTemplateMapper` can also be instantiated directly for isolated configuration.
+- Public API methods:
+- `render(String templatePath, Map<String, Object> rawData)`
+- `jsonNodeToString(JsonNode node)`
+- `refreshCache()`
+
+## 7. Pretty JSON output utility
 - Implemented in `JsonTemplateMapper#jsonNodeToString(...)`.
-- Converts `JsonNode` to human-readable JSON for debugging or response inspection.
+- Produces pretty-printed JSON text from `JsonNode`.
 
-## 9. Configurable Repository Architecture
-- `TemplateRepository` is now an interface for custom template sources/strategies.
-- `JsonTemplateMapper` is instance-based and accepts custom `TemplateRepository` via constructor.
-- `JsonTemplateMapper.defaultInstance()` provides a static shared default instance for quick usage.
+## 8. Tested usage scenarios in repository
+- `DynamicJsonMapperTest`: placeholder replacement for nested object fields.
+- `DeepNestedMapperTest`: deep nested structure traversal and mapping.
+- `PaginatedListMapperTest`: `$template_ref` array/object mapping, pagination helper behavior, and custom repository injection.
 
-## 10. Maven Central Publishing Pipeline
-- Build is configured with `com.vanniktech.maven.publish` for Maven Central publication.
-- Publication metadata is defined in `build.gradle` (`groupId`, `artifactId`, version, license, SCM, developer info).
-- Artifacts are signed through in-memory GPG values supplied by CI secrets.
+## 9. Maven Central publishing pipeline
+- Build is configured with `com.vanniktech.maven.publish` in `build.gradle`.
+- Publication metadata (coordinates, license, SCM, developer info) is defined in Gradle configuration.
 - GitHub Actions workflow `.github/workflows/publish-central.yml` publishes on tag push (`v*`) or manual dispatch (`release_version` input).
-- Local release script `scripts/publish-central.sh` publishes with the same Gradle task and supports both `ORG_GRADLE_PROJECT_*` and `MAVEN_*` environment variable names.
-- Local env template `scripts/publish-central.env.example` provides fill-in placeholders for Sonatype and GPG secrets.
-
-## 6. Deep-Nested Mapping via Shared Mapper
-- Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.defaultInstance().render(...)`.
-- Uses `src/test/resources/templates/deep-nested-template.json` as nested template input.
-- Reuses shared placeholder replacement logic and cache behavior from `JsonTemplateMapper`.
-
-## 7. Runnable Demo Entrypoints
-- `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow (test/demo source set).
-- `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper` default instance (test/demo source set).
-- `PaginatedListMapper.main(...)`: demonstrates list slicing (`page`/`size`) and mapping paginated response fields (`total`, `total_pages`, `items`) via template placeholders (test/demo source set).
-
-## 8. List Pagination Mapping Demo
-- Implemented in `PaginatedListMapper.paginate(...)` and `PaginatedListMapper.main(...)`.
-- Uses `src/test/resources/templates/paginated-users-template.json`.
-- Uses `src/test/resources/templates/paginated-user-item-template.json` as item-level child template.
-- Normalizes invalid pagination input so `page <= 0` becomes `1`.
-- Normalizes invalid pagination input so `size <= 0` becomes `1`.
-- Calculates `total` as the total number of source items.
-- Calculates `total_pages` by `ceil(total / size)` with minimum value `1`.
-- Keeps requested page number even when page exceeds available range, and returns empty `items` for out-of-range pages.
-- Maps `items` by applying child template rendering to each current-page element.
-- Exposes `first_item` and `last_item` in template output via the same child-template mechanism.
+- Local script `scripts/publish-central.sh` publishes with the same Gradle task and supports both `ORG_GRADLE_PROJECT_*` and `MAVEN_*` environment variable names.

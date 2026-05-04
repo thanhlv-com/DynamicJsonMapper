@@ -3,13 +3,13 @@
 ## Project Structure & Module Organization
 This is a single-module Gradle Java project (`settings.gradle` name: `DynamicJsonMapper`).
 
-- `src/main/java/com/thanhlv/DynamicJsonMapper/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`, `PaginatedListMapper`).
-- `src/main/resources/templates/`: JSON templates used by mappers (for example `user-template.json`).
-- `src/test/java/` and `src/test/resources/`: test code and fixtures (JUnit tests are already present; add new tests here when behavior changes).
+- `src/main/java/com/thanhlv/dynamicjsonmapper/`: core mapping library classes (`JsonTemplateMapper`, `TemplateRenderer`, `TemplateReferenceResolver`, `TemplateRepository`, `CachingClasspathTemplateRepository`).
+- `src/test/java/com/thanhlv/dynamicjsonmapper/`: JUnit tests and executable usage examples.
+- `src/test/resources/templates/`: JSON template fixtures used by tests.
 - `docs/`: living documentation for implemented features (`docs/FEATURES.md` must reflect current behavior).
 - `build/`: generated outputs and reports (do not edit manually).
 
-Keep new Java classes under `com.thanhlv.DynamicJsonMapper` unless package boundaries are intentionally introduced.
+Keep new Java classes under `com.thanhlv.dynamicjsonmapper` unless package boundaries are intentionally introduced.
 
 ## Build, Test, and Development Commands
 Use the Gradle wrapper from repository root:
@@ -19,7 +19,7 @@ Use the Gradle wrapper from repository root:
 - `./gradlew classes`: compiles main sources without running tests.
 - `./gradlew clean`: removes generated build outputs.
 
-Run demo entry points from your IDE or after build using the compiled classpath.
+Run usage examples through targeted tests under `src/test/java`.
 
 ## Coding Style & Naming Conventions
 - Follow standard Java style: 4-space indentation, UTF-8 files, and one public class per file.
