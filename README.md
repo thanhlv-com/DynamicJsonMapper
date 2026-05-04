@@ -1,6 +1,6 @@
 # DynamicJsonMapper
 
-`DynamicJsonMapper` is a lightweight Java library for rendering JSON responses from template files using dynamic placeholder data.
+`DynamicJsonMapper` is a lightweight Java utility for rendering JSON responses from template files using dynamic placeholder data.
 
 ## Why this project
 - Keep API response shapes in JSON template files.
@@ -10,13 +10,15 @@
 - Reuse parsed templates via in-memory cache for better performance.
 
 ## Project structure
-- `src/main/java/com/thanhlv/dynamicjsonmapper/`: Java source code (`JsonTemplateMapper`, `TemplateRenderer`, `TemplateReferenceResolver`, ...)
+- `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`, `PaginatedListMapper`)
+- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`, `paginated-user-item-template.json`, `tags-template.json`, `tag-item-template.json`)
+- `src/test/java/com/thanhlv/DynamicJsonMapper/`: JUnit test suites (`JsonTemplateMapperTest`, `PaginatedListMapperTest`)
 - `src/test/resources/templates/`: test fixtures for template-driven scenarios
 - `docs/FEATURES.md`: detailed, always-updated feature list
 - `AGENTS.md`: contributor and AI collaboration guidelines
 
 ## Tech stack
-- Java (Gradle)
+- Java (Gradle project)
 - Jackson Databind `3.1.3`
 - JUnit 5
 
@@ -27,46 +29,22 @@
 ./gradlew classes
 ```
 
-## Build as library
-```bash
-./gradlew jar
-./gradlew publishToMavenLocal
-```
-
-Maven coordinates:
-- `groupId`: `com.thanhlv.dynamicjsonmapper`
-- `artifactId`: `dynamic-json-mapper`
-- `version`: `1.0.0`
-
-## Publish to Maven Central (GitHub Actions)
-- Workflow file: `.github/workflows/publish-maven-central.yml`
-- Trigger:
-- `workflow_dispatch`
-- GitHub Release `published`
-- Publish command:
-- `./gradlew publish closeAndReleaseSonatypeStagingRepository`
-
-Required GitHub repository secrets:
-- `MAVEN_CENTRAL_USERNAME`
-- `MAVEN_CENTRAL_PASSWORD`
-- `MAVEN_CENTRAL_GPG_PRIVATE_KEY` (ASCII-armored private key)
-- `MAVEN_CENTRAL_GPG_PASSPHRASE`
+## Run demos
+Run these main classes from your IDE:
+- `com.thanhlv.DynamicJsonMapper.DynamicJsonMapperTest`
+- `com.thanhlv.DynamicJsonMapper.DeepNestedMapperTest`
+- `com.thanhlv.DynamicJsonMapper.PaginatedListMapperTest`
 
 ## Core usage
 ```java
-import com.thanhlv.dynamicjsonmapper.JsonTemplateMapper;
-import tools.jackson.databind.JsonNode;
-
-import java.util.Map;
-
-JsonTemplateMapper mapper = JsonTemplateMapper.defaultInstance();
-JsonNode output = mapper.render("templates/user-template.json", Map.of(
-    "${name}", "Thanh",
-    "${city}", "HCM"
-));
-String pretty = mapper.jsonNodeToString(output);
+JsonNode output = JsonTemplateMapper.render("templates/user-template.json", rawData);
+String pretty = JsonTemplateMapper.jsonNodeToString(output);
 ```
 
 ## Contributing
 - Keep commits focused and descriptive (`type(scope): summary`).
 - Update `docs/FEATURES.md` in the same change whenever behavior or templates are modified.
+
+## AI Maintenance Skills
+- `skills/code-doc-sync`: reconcile docs and implementation (`docs-first` or `code-first`).
+- `skills/code-test-sync`: keep implementation and JUnit tests synchronized when behavior changes.
