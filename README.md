@@ -13,6 +13,7 @@
 - `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`, `PaginatedListMapper`)
 - `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`, `paginated-user-item-template.json`, `tags-template.json`, `tag-item-template.json`)
 - `src/test/java/com/thanhlv/DynamicJsonMapper/`: JUnit test suites (`JsonTemplateMapperTest`, `PaginatedListMapperTest`)
+- `src/test/resources/templates/`: test fixtures for template-driven scenarios
 - `docs/FEATURES.md`: detailed, always-updated feature list
 - `AGENTS.md`: contributor and AI collaboration guidelines
 
