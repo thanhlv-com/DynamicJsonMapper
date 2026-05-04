@@ -33,11 +33,6 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - Implemented in `JsonTemplateMapper#jsonNodeToString(...)`.
 - Converts `JsonNode` to human-readable JSON for debugging or response inspection.
 
-## 9. Configurable Repository Architecture
-- `TemplateRepository` is now an interface for custom template sources/strategies.
-- `JsonTemplateMapper` is instance-based and accepts custom `TemplateRepository` via constructor.
-- `JsonTemplateMapper.defaultInstance()` provides a static shared default instance for quick usage.
-
 ## 6. Deep-Nested Mapping via Shared Mapper
 - Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.defaultInstance().render(...)`.
 - Uses `src/test/resources/templates/deep-nested-template.json` as nested template input.
@@ -59,3 +54,29 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - Keeps requested page number even when page exceeds available range, and returns empty `items` for out-of-range pages.
 - Maps `items` by applying child template rendering to each current-page element.
 - Exposes `first_item` and `last_item` in template output via the same child-template mechanism.
+
+## 9. Configurable Repository Architecture
+- `TemplateRepository` is an interface for custom template sources/strategies.
+- `JsonTemplateMapper` is instance-based and accepts custom `TemplateRepository` via constructor.
+- `JsonTemplateMapper.defaultInstance()` provides a static shared default instance for quick usage.
+
+## 10. Packaged as Reusable Java Library
+- Build uses Gradle `java-library` plugin.
+- Publishes reusable Maven coordinates:
+- Group: `com.thanhlv.dynamicjsonmapper`
+- Artifact: `dynamic-json-mapper`
+- Version: `1.0.0`
+- Produces three artifacts: binary JAR, `-sources.jar`, and `-javadoc.jar`.
+- `jackson-databind` is declared as `api` dependency because public signatures expose Jackson types (`JsonNode`, `ObjectMapper`).
+- Supports local Maven publishing with `./gradlew publishToMavenLocal`.
+
+## 11. Maven Central Release Automation
+- Build includes `signing` and `io.github.gradle-nexus.publish-plugin` for Sonatype Central OSSRH Staging API flow.
+- Publication now contains Maven Central-required POM metadata:
+- project `name`/`description`/`url`
+- `licenses`
+- `developers`
+- `scm`
+- CI workflow `.github/workflows/publish-maven-central.yml` supports automated release:
+- Uses `actions/checkout`, `actions/setup-java`, and `gradle/actions/setup-gradle`.
+- Runs `./gradlew publish closeAndReleaseSonatypeStagingRepository` for publish + release staging.
