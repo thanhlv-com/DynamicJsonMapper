@@ -123,4 +123,18 @@ class JsonTemplateMapperTest {
 
         assertTrue(exception.getMessage().contains("Lỗi render dynamic JSON"));
     }
+
+    @Test
+    void render_shouldAutoBindPrimitiveItemsByChildTemplatePlaceholders() {
+        Map<String, Object> rawData = Map.of(
+                "${tags}", List.of("java", "json", "mapper")
+        );
+
+        JsonNode result = JsonTemplateMapper.render("templates/tags-template.json", rawData);
+
+        assertEquals("SUCCESS", result.path("status").asText());
+        assertEquals("java", result.path("data").path("tags").get(0).path("tag").asText());
+        assertEquals("json", result.path("data").path("tags").get(1).path("tag").asText());
+        assertEquals("mapper", result.path("data").path("tags").get(2).path("tag").asText());
+    }
 }

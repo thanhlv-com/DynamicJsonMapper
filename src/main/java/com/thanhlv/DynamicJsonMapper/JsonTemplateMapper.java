@@ -7,8 +7,10 @@ import tools.jackson.databind.node.NullNode;
 import tools.jackson.databind.node.ObjectNode;
 
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,14 +37,7 @@ public class JsonTemplateMapper {
     public static JsonNode render(String templatePath, Map<String, Object> rawData) {
         try {
             // Lấy template từ cache hoặc load mới từ resources
-            JsonNode rootTemplate = cache.computeIfAbsent(templatePath, path -> {
-                try (InputStream is = JsonTemplateMapper.class.getClassLoader().getResourceAsStream(path)) {
-                    if (is == null) throw new IllegalArgumentException("Template không tồn tại: " + path);
-                    return mapper.readTree(is);
-                } catch (Exception e) {
-                    throw new RuntimeException("Lỗi khi load template file", e);
-                }
-            });
+            JsonNode rootTemplate = getTemplate(templatePath);
 
             // Quan trọng: Sử dụng deepCopy() để tránh sửa đè lên bản gốc trong cache
             return processNode(rootTemplate.deepCopy(), rawData);
@@ -152,9 +147,59 @@ public class JsonTemplateMapper {
                 childRawData.put(toPlaceholder(entry.getKey()), mapper.convertValue(entry.getValue(), Object.class));
             }
         } else {
-            childRawData.put("${item}", mapper.convertValue(itemNode, Object.class));
+            Object primitiveValue = mapper.convertValue(itemNode, Object.class);
+            JsonNode childTemplate = getTemplate(childTemplatePath);
+            Set<String> placeholders = collectPlaceholders(childTemplate);
+            for (String placeholder : placeholders) {
+                childRawData.putIfAbsent(placeholder, primitiveValue);
+            }
         }
         return render(childTemplatePath, childRawData);
+    }
+
+    private static JsonNode getTemplate(String templatePath) {
+        return cache.computeIfAbsent(templatePath, path -> {
+            try (InputStream is = JsonTemplateMapper.class.getClassLoader().getResourceAsStream(path)) {
+                if (is == null) throw new IllegalArgumentException("Template không tồn tại: " + path);
+                return mapper.readTree(is);
+            } catch (Exception e) {
+                throw new RuntimeException("Lỗi khi load template file", e);
+            }
+        });
+    }
+
+    private static Set<String> collectPlaceholders(JsonNode node) {
+        Set<String> placeholders = new HashSet<>();
+        collectPlaceholders(node, placeholders);
+        return placeholders;
+    }
+
+    private static void collectPlaceholders(JsonNode node, Set<String> placeholders) {
+        if (node == null || node.isNull()) {
+            return;
+        }
+
+        if (node.isTextual()) {
+            String value = node.asText();
+            if (isPlaceholder(value)) {
+                placeholders.add(value);
+            }
+            return;
+        }
+
+        if (node instanceof ObjectNode objectNode) {
+            var fields = objectNode.properties().iterator();
+            while (fields.hasNext()) {
+                collectPlaceholders(fields.next().getValue(), placeholders);
+            }
+            return;
+        }
+
+        if (node instanceof ArrayNode arrayNode) {
+            for (JsonNode item : arrayNode) {
+                collectPlaceholders(item, placeholders);
+            }
+        }
     }
 
     private static boolean isPlaceholder(String text) {

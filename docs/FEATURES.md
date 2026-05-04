@@ -11,6 +11,7 @@ Update this file whenever code changes behavior.
 - Supports linked child templates for array fields via object config:
 - `$template_ref`: child template path in resources.
 - `$source`: placeholder token that resolves to an object or array in `rawData`.
+- For primitive sources in `$template_ref`, mapper auto-detects placeholders used in the child template and binds each placeholder to the primitive item value (no fixed `${item}` requirement).
 
 ## 2. Template Caching for Faster Reuse
 - Implemented in `JsonTemplateMapper` with `ConcurrentHashMap<String, JsonNode>`.
