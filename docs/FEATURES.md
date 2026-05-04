@@ -30,3 +30,13 @@ Update this file whenever code changes behavior.
 ## 6. Runnable Demo Entrypoints
 - `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow.
 - `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper`.
+- `PaginatedListMapper.main(...)`: demonstrates list slicing (`page`/`size`) and mapping paginated response fields (`total`, `total_pages`, `items`) via template placeholders.
+
+## 7. List Pagination Mapping Demo
+- Implemented in `PaginatedListMapper.paginate(...)` and `PaginatedListMapper.main(...)`.
+- Uses `src/main/resources/templates/paginated-users-template.json`.
+- Normalizes invalid pagination input so `page <= 0` becomes `1`.
+- Normalizes invalid pagination input so `size <= 0` becomes `1`.
+- Calculates `total` as the total number of source items.
+- Calculates `total_pages` by `ceil(total / size)` with minimum value `1`.
+- Maps `items` as the current page sub-list (empty if page exceeds available data).

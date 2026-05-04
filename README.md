@@ -9,8 +9,8 @@
 - Reuse parsed templates via in-memory cache for better performance.
 
 ## Project structure
-- `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`)
-- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`)
+- `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`, `PaginatedListMapper`)
+- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`)
 - `docs/FEATURES.md`: detailed, always-updated feature list
 - `AGENTS.md`: contributor and AI collaboration guidelines
 
@@ -30,6 +30,7 @@
 Run these main classes from your IDE:
 - `com.thanhlv.DynamicJsonMapper.DynamicJsonMapper`
 - `com.thanhlv.DynamicJsonMapper.DeepNestedMapper`
+- `com.thanhlv.DynamicJsonMapper.PaginatedListMapper`
 
 ## Core usage
 ```java
