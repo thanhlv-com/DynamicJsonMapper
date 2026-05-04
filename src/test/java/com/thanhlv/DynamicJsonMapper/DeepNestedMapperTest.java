@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class DeepNestedMapperTest {
     private static final String TEMPLATE_PATH = "templates/deep-nested-template.json";
+    private static final JsonTemplateMapper MAPPER = JsonTemplateMapper.defaultInstance();
 
     public static void main(String[] args) {
         // 1. Dữ liệu gốc "phẳng" hoặc "lồng" (Raw Data)
@@ -21,9 +22,9 @@ public class DeepNestedMapperTest {
         );
 
         // 2. Load template file và mapping bằng JsonTemplateMapper
-        JsonNode finalResponse = JsonTemplateMapper.render(TEMPLATE_PATH, rawData);
+        JsonNode finalResponse = MAPPER.render(TEMPLATE_PATH, rawData);
 
         // 3. In kết quả
-        System.out.println(JsonTemplateMapper.jsonNodeToString(finalResponse));
+        System.out.println(MAPPER.jsonNodeToString(finalResponse));
     }
 }

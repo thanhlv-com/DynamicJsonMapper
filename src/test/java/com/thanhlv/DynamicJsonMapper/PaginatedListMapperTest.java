@@ -9,6 +9,7 @@ import java.util.Map;
 
 public class PaginatedListMapperTest {
     private static final String TEMPLATE_PATH = "templates/paginated-users-template.json";
+    private static final JsonTemplateMapper MAPPER = JsonTemplateMapper.defaultInstance();
 
     public static void main(String[] args) {
         List<Map<String, Object>> users = List.of(
@@ -33,8 +34,8 @@ public class PaginatedListMapperTest {
         rawData.put("${first_item}", firstItem(paginationResult.items()));
         rawData.put("${last_item}", lastItem(paginationResult.items()));
 
-        JsonNode finalResponse = JsonTemplateMapper.render(TEMPLATE_PATH, rawData);
-        System.out.println(JsonTemplateMapper.jsonNodeToString(finalResponse));
+        JsonNode finalResponse = MAPPER.render(TEMPLATE_PATH, rawData);
+        System.out.println(MAPPER.jsonNodeToString(finalResponse));
     }
 
     static <T> PaginationResult paginate(List<T> source, int page, int size) {
