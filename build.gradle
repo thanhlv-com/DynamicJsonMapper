@@ -51,8 +51,8 @@ mavenPublishing {
         developers {
             developer {
                 id = 'thanhlv-com'
-                name = 'Thanh Le Van'
-                email = 'thanhlv.com@gmail.com'
+                name = 'Le Van Thanh'
+                email = 'lethanh9398@gmail.com'
             }
         }
 
