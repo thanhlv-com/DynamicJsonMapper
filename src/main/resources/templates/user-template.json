@@ -1,0 +1,16 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "account_info": {
+      "user_name": "[name]",
+      "age": "[tuoi]"
+    },
+    "location_details": {
+      "city": "[noio]",
+      "country": "Việt Nam"
+    }
+  },
+  "metadata": {
+    "server_id": "SV-01"
+  }
+}
