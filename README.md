@@ -41,6 +41,22 @@
 - `MAVEN_GPG_PASSPHRASE`
 - Build uses Gradle task: `publishToMavenCentral` with `-PreleaseVersion=...`.
 
+## Publish to Maven Central (Local Script)
+- Script file: `scripts/publish-central.sh`.
+- Env template file: `scripts/publish-central.env.example`.
+- Usage:
+```bash
+cp scripts/publish-central.env.example scripts/publish-central.env
+vi scripts/publish-central.env
+source scripts/publish-central.env
+./scripts/publish-central.sh 1.2.3
+```
+- Required environment variables (one of each pair is enough):
+- `ORG_GRADLE_PROJECT_mavenCentralUsername` or `MAVEN_CENTRAL_USERNAME`
+- `ORG_GRADLE_PROJECT_mavenCentralPassword` or `MAVEN_CENTRAL_PASSWORD`
+- `ORG_GRADLE_PROJECT_signingInMemoryKey` or `MAVEN_GPG_PRIVATE_KEY`
+- `ORG_GRADLE_PROJECT_signingInMemoryKeyPassword` or `MAVEN_GPG_PASSPHRASE`
+
 ## Run demos
 Run these main classes from your IDE:
 - `com.thanhlv.DynamicJsonMapper.DynamicJsonMapperTest`

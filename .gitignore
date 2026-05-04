@@ -42,3 +42,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 .idea
+
+### Local release secrets ###
+scripts/publish-central.env

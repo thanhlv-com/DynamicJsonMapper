@@ -43,6 +43,8 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - Publication metadata is defined in `build.gradle` (`groupId`, `artifactId`, version, license, SCM, developer info).
 - Artifacts are signed through in-memory GPG values supplied by CI secrets.
 - GitHub Actions workflow `.github/workflows/publish-central.yml` publishes on tag push (`v*`) or manual dispatch (`release_version` input).
+- Local release script `scripts/publish-central.sh` publishes with the same Gradle task and supports both `ORG_GRADLE_PROJECT_*` and `MAVEN_*` environment variable names.
+- Local env template `scripts/publish-central.env.example` provides fill-in placeholders for Sonatype and GPG secrets.
 
 ## 6. Deep-Nested Mapping via Shared Mapper
 - Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.defaultInstance().render(...)`.
