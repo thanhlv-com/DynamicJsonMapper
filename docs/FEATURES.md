@@ -11,7 +11,7 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - Works recursively for nested objects and arrays.
 
 ## 2. Linked Child Templates via `$template_ref` and `$source`
-- Implemented in `JsonTemplateMapper.resolveTemplateRef(...)` and `renderChildTemplate(...)`.
+- Implemented in `TemplateReferenceResolver`.
 - Supports linked child templates for response fields using object config:
 - `$template_ref`: child template path in resources.
 - `$source`: textual placeholder token (for example `${items}`) resolved from `rawData`.
@@ -21,7 +21,7 @@ Current Java package namespace: `com.thanhlv.dynamicjsonmapper`.
 - Primitive-array scenario is covered by templates `templates/tags-template.json` and `templates/tag-item-template.json`.
 
 ## 3. Template Caching for Faster Reuse
-- Implemented in `JsonTemplateMapper` with `ConcurrentHashMap<String, JsonNode>`.
+- Implemented in `TemplateRepository` with `ConcurrentHashMap<String, JsonNode>`.
 - Caches parsed templates by resource path to avoid repeated file I/O and parse cost.
 - Uses `deepCopy()` before processing so cached templates are never mutated.
 
