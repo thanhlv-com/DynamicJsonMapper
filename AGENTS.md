@@ -3,9 +3,9 @@
 ## Project Structure & Module Organization
 This is a single-module Gradle Java project (`settings.gradle` name: `DynamicJsonMapper`).
 
-- `src/main/java/com/thanhlv/DynamicJsonMapper/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`).
+- `src/main/java/com/thanhlv/DynamicJsonMapper/`: core mapping logic and runnable examples (`DynamicJsonMapper`, `JsonTemplateMapper`, `DeepNestedMapper`, `PaginatedListMapper`).
 - `src/main/resources/templates/`: JSON templates used by mappers (for example `user-template.json`).
-- `src/test/java/` and `src/test/resources/`: test code and fixtures (currently scaffolded, add tests here).
+- `src/test/java/` and `src/test/resources/`: test code and fixtures (JUnit tests are already present; add new tests here when behavior changes).
 - `docs/`: living documentation for implemented features (`docs/FEATURES.md` must reflect current behavior).
 - `build/`: generated outputs and reports (do not edit manually).
 

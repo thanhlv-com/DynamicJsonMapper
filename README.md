@@ -11,14 +11,15 @@
 
 ## Project structure
 - `src/main/java/com/thanhlv/DynamicJsonMapper/`: Java source code (`JsonTemplateMapper`, `DynamicJsonMapper`, `DeepNestedMapper`, `PaginatedListMapper`)
-- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`, `paginated-user-item-template.json`)
+- `src/main/resources/templates/`: JSON templates (`user-template.json`, `deep-nested-template.json`, `paginated-users-template.json`, `paginated-user-item-template.json`, `tags-template.json`, `tag-item-template.json`)
+- `src/test/java/com/thanhlv/DynamicJsonMapper/`: JUnit test suites (`JsonTemplateMapperTest`, `PaginatedListMapperTest`)
 - `docs/FEATURES.md`: detailed, always-updated feature list
 - `AGENTS.md`: contributor and AI collaboration guidelines
 
 ## Tech stack
 - Java (Gradle project)
 - Jackson Databind `3.1.3`
-- JUnit 5 (configured, add tests under `src/test/java`)
+- JUnit 5
 
 ## Build and test
 ```bash
@@ -43,11 +44,6 @@ String pretty = JsonTemplateMapper.jsonNodeToString(output);
 - Keep commits focused and descriptive (`type(scope): summary`).
 - Update `docs/FEATURES.md` in the same change whenever behavior or templates are modified.
 
-## AI Maintenance Skill
-- Skill location: `skills/code-doc-sync`.
-- Use it to keep code and documentation synchronized after changes.
-- Priority options:
-- `docs-first`: update implementation to match docs.
-- `code-first`: update docs to match implementation.
-- Skill location: `skills/code-test-sync`.
-- Use it to keep implementation and JUnit tests synchronized; when coverage is missing, add/update tests in the same change.
+## AI Maintenance Skills
+- `skills/code-doc-sync`: reconcile docs and implementation (`docs-first` or `code-first`).
+- `skills/code-test-sync`: keep implementation and JUnit tests synchronized when behavior changes.

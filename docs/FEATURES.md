@@ -1,6 +1,6 @@
 # Current Features
 
-This document describes the currently implemented features in `DynamicJsonMapper`.  
+This document describes the currently implemented features in `DynamicJsonMapper`.
 Update this file whenever code changes behavior.
 
 ## 1. JSON Template Rendering from Resource Files
@@ -8,35 +8,41 @@ Update this file whenever code changes behavior.
 - Loads template JSON from `src/main/resources` (example: `templates/user-template.json`).
 - Replaces placeholder tokens in text nodes (pattern: `${key}`) with values from `rawData`.
 - Works recursively for nested objects and arrays.
-- Supports linked child templates for array fields via object config:
-- `$template_ref`: child template path in resources.
-- `$source`: placeholder token that resolves to an object or array in `rawData`.
-- For primitive sources in `$template_ref`, mapper auto-detects placeholders used in the child template and binds each placeholder to the primitive item value (no fixed `${item}` requirement).
 
-## 2. Template Caching for Faster Reuse
+## 2. Linked Child Templates via `$template_ref` and `$source`
+- Implemented in `JsonTemplateMapper.resolveTemplateRef(...)` and `renderChildTemplate(...)`.
+- Supports linked child templates for response fields using object config:
+- `$template_ref`: child template path in resources.
+- `$source`: textual placeholder token (for example `${items}`) resolved from `rawData`.
+- `$source` must resolve to an object or array value; otherwise rendering fails with `IllegalArgumentException` wrapped in `RuntimeException`.
+- If `$source` resolves to `null`, renderer returns JSON `null` for that field.
+- For primitive array items (for example `List<String>`), mapper auto-detects placeholders in the child template and binds each placeholder to the primitive item value.
+- Primitive-array scenario is covered by templates `templates/tags-template.json` and `templates/tag-item-template.json`.
+
+## 3. Template Caching for Faster Reuse
 - Implemented in `JsonTemplateMapper` with `ConcurrentHashMap<String, JsonNode>`.
 - Caches parsed templates by resource path to avoid repeated file I/O and parse cost.
 - Uses `deepCopy()` before processing so cached templates are never mutated.
 
-## 3. Cache Refresh Mechanism
+## 4. Cache Refresh Mechanism
 - Implemented in `JsonTemplateMapper.refreshCache()`.
 - Clears all cached template entries, useful when template files are changed at runtime.
 
-## 4. Pretty JSON Output Utility
+## 5. Pretty JSON Output Utility
 - Implemented in `JsonTemplateMapper.jsonNodeToString(...)`.
 - Converts `JsonNode` to human-readable JSON for debugging or response inspection.
 
-## 5. Deep-Nested Mapping via Shared Mapper
+## 6. Deep-Nested Mapping via Shared Mapper
 - Implemented in `DeepNestedMapper.main(...)` by calling `JsonTemplateMapper.render(...)`.
 - Uses `src/main/resources/templates/deep-nested-template.json` as nested template input.
 - Reuses shared placeholder replacement logic and cache behavior from `JsonTemplateMapper`.
 
-## 6. Runnable Demo Entrypoints
+## 7. Runnable Demo Entrypoints
 - `DynamicJsonMapper.main(...)`: demonstrates resource-template mapping flow.
 - `DeepNestedMapper.main(...)`: demonstrates deep-nested template mapping using `JsonTemplateMapper`.
 - `PaginatedListMapper.main(...)`: demonstrates list slicing (`page`/`size`) and mapping paginated response fields (`total`, `total_pages`, `items`) via template placeholders.
 
-## 7. List Pagination Mapping Demo
+## 8. List Pagination Mapping Demo
 - Implemented in `PaginatedListMapper.paginate(...)` and `PaginatedListMapper.main(...)`.
 - Uses `src/main/resources/templates/paginated-users-template.json`.
 - Uses `src/main/resources/templates/paginated-user-item-template.json` as item-level child template.
@@ -44,5 +50,6 @@ Update this file whenever code changes behavior.
 - Normalizes invalid pagination input so `size <= 0` becomes `1`.
 - Calculates `total` as the total number of source items.
 - Calculates `total_pages` by `ceil(total / size)` with minimum value `1`.
+- Keeps requested page number even when page exceeds available range, and returns empty `items` for out-of-range pages.
 - Maps `items` by applying child template rendering to each current-page element.
 - Exposes `first_item` and `last_item` in template output via the same child-template mechanism.

@@ -1,0 +1,9 @@
+{
+  "status": "SUCCESS",
+  "data": {
+    "tags": {
+      "$template_ref": "templates/tag-item-template.json",
+      "$source": "${tags}"
+    }
+  }
+}
